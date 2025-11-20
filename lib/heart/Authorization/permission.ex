@@ -1,6 +1,8 @@
 defmodule Heart.Authorization.Permission do
   use Ecto.Schema
   alias Heart.Repo
+
+  use Heart.RepoHelpers, repo: Heart.Repo
   import Ecto.Changeset
 
   alias Heart.Authorization.{Roles, RolePermission}

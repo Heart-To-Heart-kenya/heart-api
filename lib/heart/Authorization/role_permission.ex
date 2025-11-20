@@ -1,6 +1,8 @@
 defmodule Heart.Authorization.RolePermission do
   use Ecto.Schema
   alias Heart.Repo
+
+  use Heart.RepoHelpers, repo: Heart.Repo
   import Ecto.Changeset
 
   @primary_key {:id, :binary_id, autogenerate: true}
@@ -34,6 +36,6 @@ defmodule Heart.Authorization.RolePermission do
   def create(attrs) do
     %__MODULE__{}
     |> changeset(attrs)
-    |> Repo.insert!()
+    |> Repo.insert()
   end
 end

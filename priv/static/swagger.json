@@ -1,0 +1,163 @@
+{
+  "info": {
+    "version": "1.0",
+    "description": "API documentation for the Heart Project authorization system.",
+    "title": "Heart Project API",
+    "contact": {
+      "name": "API Support",
+      "email": "support@heart-project.com"
+    }
+  },
+  "host": "localhost:4000",
+  "definitions": {
+    "Role": {
+      "description": "The role details",
+      "example": {
+        "description": "Can manage users",
+        "is_system_role": false,
+        "level": 10,
+        "role_name": "Manager"
+      },
+      "properties": {
+        "description": {
+          "description": "Optional description",
+          "type": "string"
+        },
+        "is_system_role": {
+          "description": "Is this a system role?",
+          "type": "boolean"
+        },
+        "level": {
+          "description": "Hierarchy level (e.g. 10)",
+          "type": "integer"
+        },
+        "role_name": {
+          "description": "Unique name of the role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "level",
+        "role_name"
+      ],
+      "title": "Role",
+      "type": "object"
+    }
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "paths": {
+    "/api/v1/roles": {
+      "get": {
+        "description": "",
+        "operationId": "HeartWeb.Authorization.RoleController.api_get_roles",
+        "parameters": [
+          {
+            "description": "Search by name",
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "summary": "List all roles",
+        "tags": [
+          "Role"
+        ]
+      },
+      "post": {
+        "description": "",
+        "operationId": "HeartWeb.Authorization.RoleController.api_create_role",
+        "parameters": [
+          {
+            "description": "Role attributes",
+            "in": "body",
+            "name": "role",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Role"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Role Created"
+          }
+        },
+        "summary": "Create a new role",
+        "tags": [
+          "Role"
+        ]
+      }
+    },
+    "/api/v1/roles/{id}": {
+      "delete": {
+        "description": "",
+        "operationId": "HeartWeb.Authorization.RoleController.api_delete_role",
+        "parameters": [
+          {
+            "description": "Role ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          }
+        },
+        "summary": "Delete role",
+        "tags": [
+          "Role"
+        ]
+      },
+      "put": {
+        "description": "",
+        "operationId": "HeartWeb.Authorization.RoleController.api_update_role",
+        "parameters": [
+          {
+            "description": "Role ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Role attributes to update",
+            "in": "body",
+            "name": "role",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Role"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated"
+          }
+        },
+        "summary": "Update role",
+        "tags": [
+          "Role"
+        ]
+      }
+    }
+  },
+  "swagger": "2.0",
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ]
+}

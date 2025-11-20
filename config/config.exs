@@ -52,6 +52,17 @@ config :tailwind,
     cd: Path.expand("..", __DIR__)
   ]
 
+config :heart, :phoenix_swagger,
+  swagger_files: %{
+    "priv/static/swagger.json" => [
+      # Your Router module
+      router: HeartWeb.Router,
+      endpoint: HeartWeb.Endpoint
+    ]
+  }
+
+config :phoenix_swagger, json_library: Jason
+
 # Configures Elixir's Logger
 config :logger, :default_formatter,
   format: "$time $metadata[$level] $message\n",

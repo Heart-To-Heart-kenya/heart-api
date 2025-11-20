@@ -66,7 +66,10 @@ defmodule Heart.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"},
-      {:slugy, "~> 4.1.0"}
+      {:slugy, "~> 4.1.0"},
+      {:scrivener_ecto, "~> 2.7"},
+      {:phoenix_swagger, "~> 0.8.5"},
+      {:ex_json_schema, "~> 0.5"}
     ]
   end
 

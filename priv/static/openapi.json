@@ -1,0 +1,1 @@
+{"components":{"responses":{},"schemas":{}},"info":{"title":"Heart API","version":"1.0.0"},"openapi":"3.0.0","paths":{"/api/v1/roles":{"get":"ok","post":"ok"},"/api/v1/roles/{id}":{"delete":"ok","put":"ok"}},"security":[],"servers":[{"url":"http://localhost:4000","variables":{}}],"tags":[]}

@@ -1,6 +1,8 @@
 defmodule Heart.Authorization.Roles do
   use Ecto.Schema
   alias Heart.Repo
+
+  use Heart.RepoHelpers, repo: Heart.Repo
   import Ecto.Changeset
   import Slugy
 
@@ -42,7 +44,7 @@ defmodule Heart.Authorization.Roles do
       :deleted_at
     ])
     |> validate_required([:role_name, :level, :status])
-    |> unique_constraint(:role_name)
+    |> unique_constraint(:role_name, message: "Role name already exist")
     |> slugify(:role_name)
 
     # |> validate_length(:number_of_users, grater_than_or_equals_to: 0)
@@ -53,7 +55,7 @@ defmodule Heart.Authorization.Roles do
   def create(attrs) do
     %__MODULE__{}
     |> changeset(attrs)
-    |> Repo.insert!()
+    |> Repo.insert()
   end
 
   def update(roles, params) do
@@ -86,4 +88,27 @@ defmodule Heart.Authorization.Roles do
   #       put_change(changeset, :slug, role_name)
   #   end
   # end
+
+  def search(queryable \\ __MODULE__, filters) do
+    Enum.reduce(filters, queryable, fn {k, v}, accum_query ->
+      cond do
+        v == "" ->
+          accum_query
+
+        k == "name" ->
+          from(i in accum_query,
+            where: ilike(i.role_name, ^"%#{v}%")
+          )
+
+        k == "status" ->
+          from(i in accum_query,
+            where: i.status == ^v
+          )
+
+        true ->
+          accum_query
+      end
+    end)
+    |> Repo.all()
+  end
 end
