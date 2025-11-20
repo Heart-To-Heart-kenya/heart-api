@@ -45,10 +45,31 @@ defmodule HeartWeb.Router do
     pipe_through :api
 
     scope "/roles" do
-      get "/", Authorization.RoleController, :api_get_roles
-      post "/", Authorization.RoleController, :api_create_role
-      put "/:id", Authorization.RoleController, :api_update_role
-      delete "/:id", Authorization.RoleController, :api_delete_role
+      get("/", Authorization.RoleController, :api_get_roles)
+      post("/", Authorization.RoleController, :api_create_role)
+      put("/:id", Authorization.RoleController, :api_update_role)
+      delete("/:id", Authorization.RoleController, :api_delete_role)
+    end
+
+    scope "/permissions" do
+      get("/", Authorization.PermissionController, :api_get_permissions)
+      post("/", Authorization.PermissionController, :api_create_permission)
+      put("/:id", Authorization.PermissionController, :api_update_permission)
+      delete("/:id", Authorization.PermissionController, :api_delete_permission)
+    end
+
+    scope "/role_permissions" do
+      get("/", Authorization.RolePermissionController, :api_list_role_permissions)
+      post("/", Authorization.RolePermissionController, :api_create_role_permission)
+      delete("/:id", Authorization.RolePermissionController, :api_delete_role_permission)
+    end
+
+    scope "/auth" do
+      post("/register", Auth.AuthController, :register)
+      post("/verify", Auth.AuthController, :verify)
+      post("/login", Auth.AuthController, :login)
+      post("/forgot-password", Auth.AuthController, :forgot_password)
+      post("/reset-password", Auth.AuthController, :reset_password)
     end
   end
 

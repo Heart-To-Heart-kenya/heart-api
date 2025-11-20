@@ -84,5 +84,21 @@ config :phoenix_live_view,
   # Enable helpful, but potentially expensive runtime checks
   enable_expensive_runtime_checks: true
 
+config :heart, Heart.Mailer,
+  adapter: Swoosh.Adapters.SMTP,
+  relay: "api.starlinkkenya.com",
+  port: 465,
+  username: "info@api.starlinkkenya.com",
+  password: "S!zRbTpoyaF0",
+  ssl: true,
+  auth: :always,
+  tls: :always,
+  retries: 2
+
+config :heart, :email_settings,
+  from_email: "info@api.starlinkkenya.com",
+  verification_template: "templates/mail/verification_email.html",
+  password_reset_template: "templates/mail/password_reset_template.html"
+
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false

@@ -7,24 +7,29 @@ defmodule Heart.Accounts.UserSecurityAttributes do
   @foreign_key_type :binary_id
 
   schema "user_security_attributes" do
-    field :password, :string
+    field :password, :string, redact: true
     field :auth_type, :string, default: "password"
     field :pending_email, :string
+
     field :password_reset_token, :string
-    field :password_reset_token_expiry, :utc_datetime
+    field :password_reset_token_expiry, :utc_datetime_usec
+
     field :email_verification_token, :string
-    field :email_token_expiry, :utc_datetime
+    field :email_token_expiry, :utc_datetime_usec
+
     field :email_verified, :boolean, default: false
-    field :email_verified_at, :utc_datetime
+    field :email_verified_at, :utc_datetime_usec
+
     field :two_factor_enabled, :boolean, default: false
     field :two_factor_secret, :string
+
     field :failed_login_attempts, :integer, default: 0
-    field :lock_until, :utc_datetime
+    field :lock_until, :utc_datetime_usec
     field :is_deleted, :boolean, default: false
 
     belongs_to :user, Users, type: :binary_id
 
-    timestamps(type: :utc_datetime)
+    timestamps(type: :utc_datetime_usec)
     field :deleted_at, :utc_datetime_usec
   end
 
@@ -35,22 +40,15 @@ defmodule Heart.Accounts.UserSecurityAttributes do
       :user_id,
       :password,
       :auth_type,
-      :pending_email,
-      :password_reset_token,
-      :password_reset_token_expiry,
       :email_verification_token,
       :email_token_expiry,
       :email_verified,
-      :email_verified_at,
-      :two_factor_enabled,
-      :two_factor_secret,
-      :failed_login_attempts,
-      :lock_until,
-      :is_deleted,
-      :deleted_at
+      :password_reset_token,
+      :password_reset_token_expiry
     ])
     |> validate_required([:user_id])
     |> unique_constraint(:user_id)
+    |> hash_password()
   end
 
   # Helper functions
@@ -87,5 +85,15 @@ defmodule Heart.Accounts.UserSecurityAttributes do
       end
 
     %{attrs | failed_login_attempts: failed_attempts, lock_until: lock_until}
+  end
+
+  defp hash_password(changeset) do
+    case get_change(changeset, :password) do
+      password when is_binary(password) ->
+        put_change(changeset, :password, Bcrypt.hash_pwd_salt(password))
+
+      _ ->
+        changeset
+    end
   end
 end

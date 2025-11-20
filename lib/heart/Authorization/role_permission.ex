@@ -1,6 +1,7 @@
 defmodule Heart.Authorization.RolePermission do
   use Ecto.Schema
   alias Heart.Repo
+  # import Ecto.Query
 
   use Heart.RepoHelpers, repo: Heart.Repo
   import Ecto.Changeset
@@ -18,7 +19,8 @@ defmodule Heart.Authorization.RolePermission do
       foreign_key: :permission_id,
       type: :binary_id
 
-    timestamps(type: :utc_datetime)
+    # Corrected timestamp type
+    timestamps(type: :utc_datetime_usec)
   end
 
   @doc false
@@ -37,5 +39,22 @@ defmodule Heart.Authorization.RolePermission do
     %__MODULE__{}
     |> changeset(attrs)
     |> Repo.insert()
+  end
+
+  def update(role_permission, params) do
+    role_permission
+    |> changeset(params)
+    |> Repo.update()
+  end
+
+  def list(filters \\ %{}) do
+    query =
+      __MODULE__
+      |> Ecto.Query.preload(:role)
+      |> Ecto.Query.preload(:permission)
+
+    query
+    |> filter_query(filters)
+    |> Repo.all()
   end
 end

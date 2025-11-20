@@ -69,7 +69,9 @@ defmodule Heart.MixProject do
       {:slugy, "~> 4.1.0"},
       {:scrivener_ecto, "~> 2.7"},
       {:phoenix_swagger, "~> 0.8.5"},
-      {:ex_json_schema, "~> 0.5"}
+      {:ex_json_schema, "~> 0.5"},
+      {:bcrypt_elixir, "~> 3.0"},
+      {:gen_smtp, "~> 1.2"}
     ]
   end
 

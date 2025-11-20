@@ -10,6 +10,71 @@
   },
   "host": "localhost:4000",
   "definitions": {
+    "RolePermission": {
+      "description": "Represents an association between a role and a permission.",
+      "example": {
+        "created_by": "542a1b93-e123-4f0e-b9b5-f48d1d8c1c4f",
+        "permission_id": "4b5e4118-9210-4f0c-9f17-ab3048f8597b",
+        "role_id": "78a9c336-d243-41c6-a675-8120e2e9c135"
+      },
+      "properties": {
+        "created_by": {
+          "description": "User ID who created the association",
+          "format": "uuid",
+          "type": "string"
+        },
+        "permission_id": {
+          "description": "ID of the permission",
+          "format": "uuid",
+          "type": "string"
+        },
+        "role_id": {
+          "description": "ID of the role",
+          "format": "uuid",
+          "type": "string"
+        }
+      },
+      "required": [
+        "permission_id",
+        "role_id"
+      ],
+      "title": "RolePermission",
+      "type": "object"
+    },
+    "Permission": {
+      "description": "The permission details",
+      "example": {
+        "description": "Can create/edit/delete permissions",
+        "permission_name": "manage_permissions",
+        "scope": "permissions:manage",
+        "status": "active"
+      },
+      "properties": {
+        "description": {
+          "description": "Optional description",
+          "type": "string"
+        },
+        "permission_name": {
+          "description": "Unique name of the permission (e.g. view_users)",
+          "type": "string"
+        },
+        "scope": {
+          "description": "Scope string (e.g. users:view)",
+          "type": "string"
+        },
+        "status": {
+          "default": "active",
+          "description": "Status (active/inactive)",
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "permission_name"
+      ],
+      "title": "Permission",
+      "type": "object"
+    },
     "Role": {
       "description": "The role details",
       "example": {
@@ -42,6 +107,141 @@
       ],
       "title": "Role",
       "type": "object"
+    },
+    "PasswordReset": {
+      "description": "Details to perform a password reset.",
+      "example": {
+        "code": "654321",
+        "email": "jane.doe@example.com",
+        "new_password": "a_new_secure_password"
+      },
+      "properties": {
+        "code": {
+          "description": "6-digit reset code received via email",
+          "type": "string"
+        },
+        "email": {
+          "description": "User's email address",
+          "format": "email",
+          "type": "string"
+        },
+        "new_password": {
+          "description": "New password",
+          "format": "password",
+          "type": "string"
+        }
+      },
+      "required": [
+        "new_password",
+        "code",
+        "email"
+      ],
+      "title": "PasswordReset",
+      "type": "object"
+    },
+    "PasswordResetRequest": {
+      "description": "Email to send a password reset code to.",
+      "example": {
+        "email": "jane.doe@example.com"
+      },
+      "properties": {
+        "email": {
+          "description": "User's email address",
+          "format": "email",
+          "type": "string"
+        }
+      },
+      "required": [
+        "email"
+      ],
+      "title": "PasswordResetRequest",
+      "type": "object"
+    },
+    "UserLogin": {
+      "description": "Credentials required for login.",
+      "example": {
+        "email": "jane.doe@example.com",
+        "password": "mysecurepassword123"
+      },
+      "properties": {
+        "email": {
+          "description": "User's email address",
+          "format": "email",
+          "type": "string"
+        },
+        "password": {
+          "description": "User's password",
+          "format": "password",
+          "type": "string"
+        }
+      },
+      "required": [
+        "password",
+        "email"
+      ],
+      "title": "UserLogin",
+      "type": "object"
+    },
+    "UserRegistration": {
+      "description": "Fields required to register a new user.",
+      "example": {
+        "email": "jane.doe@example.com",
+        "first_name": "Jane",
+        "last_name": "Doe",
+        "password": "mysecurepassword123"
+      },
+      "properties": {
+        "email": {
+          "description": "Unique email address",
+          "format": "email",
+          "type": "string"
+        },
+        "first_name": {
+          "description": "User's first name",
+          "type": "string"
+        },
+        "last_name": {
+          "description": "User's last name",
+          "type": "string"
+        },
+        "password": {
+          "description": "Password (will be hashed)",
+          "format": "password",
+          "type": "string"
+        }
+      },
+      "required": [
+        "password",
+        "email",
+        "last_name",
+        "first_name"
+      ],
+      "title": "UserRegistration",
+      "type": "object"
+    },
+    "UserVerification": {
+      "description": "Details to verify a user's email.",
+      "example": {
+        "code": "123456",
+        "email": "jane.doe@example.com"
+      },
+      "properties": {
+        "code": {
+          "description": "6-digit verification code sent to email",
+          "type": "string"
+        },
+        "email": {
+          "description": "User's email address",
+          "format": "email",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "email"
+      ],
+      "title": "UserVerification",
+      "type": "object"
     }
   },
   "schemes": [
@@ -49,6 +249,349 @@
     "https"
   ],
   "paths": {
+    "/api/v1/auth/forgot-password": {
+      "post": {
+        "description": "",
+        "operationId": "HeartWeb.Auth.AuthController.forgot_password",
+        "parameters": [
+          {
+            "description": "User's email to receive the reset code",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PasswordResetRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "summary": "Request password reset code",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "description": "",
+        "operationId": "HeartWeb.Auth.AuthController.login",
+        "parameters": [
+          {
+            "description": "Login credentials",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserLogin"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "summary": "Authenticate user and get a session token",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/auth/register": {
+      "post": {
+        "description": "",
+        "operationId": "HeartWeb.Auth.AuthController.register",
+        "parameters": [
+          {
+            "description": "Registration details",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserRegistration"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        },
+        "summary": "Register a new user",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/auth/reset-password": {
+      "post": {
+        "description": "",
+        "operationId": "HeartWeb.Auth.AuthController.reset_password",
+        "parameters": [
+          {
+            "description": "Email, reset code, and new password",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PasswordReset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "summary": "Reset password with the received code",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/auth/verify": {
+      "post": {
+        "description": "",
+        "operationId": "HeartWeb.Auth.AuthController.verify",
+        "parameters": [
+          {
+            "description": "Email and verification code",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserVerification"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "summary": "Verify user's email address",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/permissions": {
+      "get": {
+        "description": "",
+        "operationId": "HeartWeb.Authorization.PermissionController.api_get_permissions",
+        "parameters": [
+          {
+            "description": "Search by permission name",
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "description": "Filter by status (active/inactive)",
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "summary": "List all permissions",
+        "tags": [
+          "Permission"
+        ]
+      },
+      "post": {
+        "description": "",
+        "operationId": "HeartWeb.Authorization.PermissionController.api_create_permission",
+        "parameters": [
+          {
+            "description": "Permission attributes",
+            "in": "body",
+            "name": "permission",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Permission"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Permission Created"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        },
+        "summary": "Create a new permission",
+        "tags": [
+          "Permission"
+        ]
+      }
+    },
+    "/api/v1/permissions/{id}": {
+      "delete": {
+        "description": "",
+        "operationId": "HeartWeb.Authorization.PermissionController.api_delete_permission",
+        "parameters": [
+          {
+            "description": "Permission ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          }
+        },
+        "summary": "Delete permission",
+        "tags": [
+          "Permission"
+        ]
+      },
+      "put": {
+        "description": "",
+        "operationId": "HeartWeb.Authorization.PermissionController.api_update_permission",
+        "parameters": [
+          {
+            "description": "Permission ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Permission attributes to update",
+            "in": "body",
+            "name": "permission",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Permission"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        },
+        "summary": "Update permission",
+        "tags": [
+          "Permission"
+        ]
+      }
+    },
+    "/api/v1/role_permissions": {
+      "get": {
+        "description": "",
+        "operationId": "HeartWeb.Authorization.RolePermissionController.api_list_role_permissions",
+        "parameters": [
+          {
+            "description": "Filter by Role ID",
+            "in": "query",
+            "name": "role_id",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "description": "Filter by Permission ID",
+            "in": "query",
+            "name": "permission_id",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "summary": "List all role-permission associations",
+        "tags": [
+          "RolePermission"
+        ]
+      },
+      "post": {
+        "description": "",
+        "operationId": "HeartWeb.Authorization.RolePermissionController.api_create_role_permission",
+        "parameters": [
+          {
+            "description": "Role and Permission IDs to link",
+            "in": "body",
+            "name": "role_permission",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RolePermission"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Association Created"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        },
+        "summary": "Create a new role-permission association",
+        "tags": [
+          "RolePermission"
+        ]
+      }
+    },
+    "/api/v1/role_permissions/{id}": {
+      "delete": {
+        "description": "",
+        "operationId": "HeartWeb.Authorization.RolePermissionController.api_delete_role_permission",
+        "parameters": [
+          {
+            "description": "ID of the association record",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          }
+        },
+        "summary": "Delete a role-permission association (Dissociate)",
+        "tags": [
+          "RolePermission"
+        ]
+      }
+    },
     "/api/v1/roles": {
       "get": {
         "description": "",
