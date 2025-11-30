@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+    /* Light mode tokens */
+    --color-primary: #284e36;
+    --color-background-light: #f6f8f6;
+    --color-background-dark: #112112;
+    --color-content-light: #ffffff;
+    --color-content-dark: #1a2c1a;
+    --color-text-primary-light: #0e1b0f;
+    --color-text-primary-dark: #e8f3e8;
+    --color-text-secondary-light: #509553;
+    --color-text-secondary-dark: #a5d6a7;
+    --color-border-light: #d1e6d1;
+    --color-border-dark: #2e7d32;
+    /*mine = #14261A*/
+
+    /* Define radius tokens similarly if desired */
+    --rounded-default: 0.5rem;
+    --rounded-lg: 0.75rem;
+    --rounded-xl: 1rem;
+    --rounded-full: 9999px;
+}

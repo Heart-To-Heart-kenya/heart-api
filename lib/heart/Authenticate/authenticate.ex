@@ -57,7 +57,7 @@ defmodule Heart.Authenticate.Authenticate do
 
     with %Users{} = user <- user,
          security = Repo.get_by(UserSecurityAttributes, user_id: user.id),
-         true <- Bcrypt.verify_pass(password, security.password),
+         true <- Argon2.verify_pass(password, security.password),
          true <- security.email_verified do
       create_session(user, device_info, ip)
     else

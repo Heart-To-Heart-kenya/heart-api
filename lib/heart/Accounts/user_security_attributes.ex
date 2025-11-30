@@ -90,7 +90,7 @@ defmodule Heart.Accounts.UserSecurityAttributes do
   defp hash_password(changeset) do
     case get_change(changeset, :password) do
       password when is_binary(password) ->
-        put_change(changeset, :password, Bcrypt.hash_pwd_salt(password))
+        put_change(changeset, :password, Argon2.hash_pwd_salt(password))
 
       _ ->
         changeset

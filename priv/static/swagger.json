@@ -10,37 +10,6 @@
   },
   "host": "localhost:4000",
   "definitions": {
-    "RolePermission": {
-      "description": "Represents an association between a role and a permission.",
-      "example": {
-        "created_by": "542a1b93-e123-4f0e-b9b5-f48d1d8c1c4f",
-        "permission_id": "4b5e4118-9210-4f0c-9f17-ab3048f8597b",
-        "role_id": "78a9c336-d243-41c6-a675-8120e2e9c135"
-      },
-      "properties": {
-        "created_by": {
-          "description": "User ID who created the association",
-          "format": "uuid",
-          "type": "string"
-        },
-        "permission_id": {
-          "description": "ID of the permission",
-          "format": "uuid",
-          "type": "string"
-        },
-        "role_id": {
-          "description": "ID of the role",
-          "format": "uuid",
-          "type": "string"
-        }
-      },
-      "required": [
-        "permission_id",
-        "role_id"
-      ],
-      "title": "RolePermission",
-      "type": "object"
-    },
     "Permission": {
       "description": "The permission details",
       "example": {
@@ -75,111 +44,35 @@
       "title": "Permission",
       "type": "object"
     },
-    "Role": {
-      "description": "The role details",
+    "RolePermission": {
+      "description": "Represents an association between a role and a permission.",
       "example": {
-        "description": "Can manage users",
-        "is_system_role": false,
-        "level": 10,
-        "role_name": "Manager"
+        "created_by": "542a1b93-e123-4f0e-b9b5-f48d1d8c1c4f",
+        "permission_id": "4b5e4118-9210-4f0c-9f17-ab3048f8597b",
+        "role_id": "78a9c336-d243-41c6-a675-8120e2e9c135"
       },
       "properties": {
-        "description": {
-          "description": "Optional description",
+        "created_by": {
+          "description": "User ID who created the association",
+          "format": "uuid",
           "type": "string"
         },
-        "is_system_role": {
-          "description": "Is this a system role?",
-          "type": "boolean"
+        "permission_id": {
+          "description": "ID of the permission",
+          "format": "uuid",
+          "type": "string"
         },
-        "level": {
-          "description": "Hierarchy level (e.g. 10)",
-          "type": "integer"
-        },
-        "role_name": {
-          "description": "Unique name of the role",
+        "role_id": {
+          "description": "ID of the role",
+          "format": "uuid",
           "type": "string"
         }
       },
       "required": [
-        "level",
-        "role_name"
+        "permission_id",
+        "role_id"
       ],
-      "title": "Role",
-      "type": "object"
-    },
-    "PasswordReset": {
-      "description": "Details to perform a password reset.",
-      "example": {
-        "code": "654321",
-        "email": "jane.doe@example.com",
-        "new_password": "a_new_secure_password"
-      },
-      "properties": {
-        "code": {
-          "description": "6-digit reset code received via email",
-          "type": "string"
-        },
-        "email": {
-          "description": "User's email address",
-          "format": "email",
-          "type": "string"
-        },
-        "new_password": {
-          "description": "New password",
-          "format": "password",
-          "type": "string"
-        }
-      },
-      "required": [
-        "new_password",
-        "code",
-        "email"
-      ],
-      "title": "PasswordReset",
-      "type": "object"
-    },
-    "PasswordResetRequest": {
-      "description": "Email to send a password reset code to.",
-      "example": {
-        "email": "jane.doe@example.com"
-      },
-      "properties": {
-        "email": {
-          "description": "User's email address",
-          "format": "email",
-          "type": "string"
-        }
-      },
-      "required": [
-        "email"
-      ],
-      "title": "PasswordResetRequest",
-      "type": "object"
-    },
-    "UserLogin": {
-      "description": "Credentials required for login.",
-      "example": {
-        "email": "jane.doe@example.com",
-        "password": "mysecurepassword123"
-      },
-      "properties": {
-        "email": {
-          "description": "User's email address",
-          "format": "email",
-          "type": "string"
-        },
-        "password": {
-          "description": "User's password",
-          "format": "password",
-          "type": "string"
-        }
-      },
-      "required": [
-        "password",
-        "email"
-      ],
-      "title": "UserLogin",
+      "title": "RolePermission",
       "type": "object"
     },
     "UserRegistration": {
@@ -219,6 +112,31 @@
       "title": "UserRegistration",
       "type": "object"
     },
+    "UserLogin": {
+      "description": "Credentials required for login.",
+      "example": {
+        "email": "jane.doe@example.com",
+        "password": "mysecurepassword123"
+      },
+      "properties": {
+        "email": {
+          "description": "User's email address",
+          "format": "email",
+          "type": "string"
+        },
+        "password": {
+          "description": "User's password",
+          "format": "password",
+          "type": "string"
+        }
+      },
+      "required": [
+        "password",
+        "email"
+      ],
+      "title": "UserLogin",
+      "type": "object"
+    },
     "UserVerification": {
       "description": "Details to verify a user's email.",
       "example": {
@@ -241,6 +159,88 @@
         "email"
       ],
       "title": "UserVerification",
+      "type": "object"
+    },
+    "PasswordResetRequest": {
+      "description": "Email to send a password reset code to.",
+      "example": {
+        "email": "jane.doe@example.com"
+      },
+      "properties": {
+        "email": {
+          "description": "User's email address",
+          "format": "email",
+          "type": "string"
+        }
+      },
+      "required": [
+        "email"
+      ],
+      "title": "PasswordResetRequest",
+      "type": "object"
+    },
+    "PasswordReset": {
+      "description": "Details to perform a password reset.",
+      "example": {
+        "code": "654321",
+        "email": "jane.doe@example.com",
+        "new_password": "a_new_secure_password"
+      },
+      "properties": {
+        "code": {
+          "description": "6-digit reset code received via email",
+          "type": "string"
+        },
+        "email": {
+          "description": "User's email address",
+          "format": "email",
+          "type": "string"
+        },
+        "new_password": {
+          "description": "New password",
+          "format": "password",
+          "type": "string"
+        }
+      },
+      "required": [
+        "new_password",
+        "code",
+        "email"
+      ],
+      "title": "PasswordReset",
+      "type": "object"
+    },
+    "Role": {
+      "description": "The role details",
+      "example": {
+        "description": "Can manage users",
+        "is_system_role": false,
+        "level": 10,
+        "role_name": "Manager"
+      },
+      "properties": {
+        "description": {
+          "description": "Optional description",
+          "type": "string"
+        },
+        "is_system_role": {
+          "description": "Is this a system role?",
+          "type": "boolean"
+        },
+        "level": {
+          "description": "Hierarchy level (e.g. 10)",
+          "type": "integer"
+        },
+        "role_name": {
+          "description": "Unique name of the role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "level",
+        "role_name"
+      ],
+      "title": "Role",
       "type": "object"
     }
   },

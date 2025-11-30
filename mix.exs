@@ -68,9 +68,7 @@ defmodule Heart.MixProject do
       {:bandit, "~> 1.5"},
       {:slugy, "~> 4.1.0"},
       {:scrivener_ecto, "~> 2.7"},
-      {:phoenix_swagger, "~> 0.8.5"},
-      {:ex_json_schema, "~> 0.5"},
-      {:bcrypt_elixir, "~> 3.0"},
+      {:argon2_elixir, "~> 4.0"},
       {:gen_smtp, "~> 1.2"}
     ]
   end

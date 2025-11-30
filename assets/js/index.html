@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Title and Description for SEO -->
+    <title>Heart to Heart | Donate & Receive Items to Reduce Waste</title>
+    <meta name="description" content="Heart to Heart is a platform that connects donors with individuals and organizations in need. Donate items you no longer use and help reduce waste while supporting your community." />
+    
+    <!-- Keywords (optional, not heavily weighted by Google but useful for some search engines) -->
+    <meta name="keywords" content="donate, receive, shelters, NGO, community, reduce waste, charity, items donation" />
+    
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:title" content="Heart to Heart | Donate & Receive Items" />
+    <meta property="og:description" content="Connect donors with individuals and organizations in need. Reduce waste and help your community through Heart to Heart." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://heart-to-heart-frontend.onrender.com" />
+    <meta property="og:image" content="https://heart-to-heart-frontend.onrender.com/og-image.png" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Heart to Heart | Donate & Receive Items" />
+    <meta name="twitter:description" content="Connect donors with individuals and organizations in need. Reduce waste and help your community through Heart to Heart." />
+    <meta name="twitter:image" content="https://heart-to-heart-frontend.onrender.com/twitter-image.png" />
+    
+    <!-- Favicon -->
+    <link rel="icon" href="./public/favicon.ico" type="image/x-icon" />
+</head>
+<body>
+    <!-- Main App Root -->
+    <div id="root"></div>
+
+    <!-- Structured Data (JSON-LD) for better SEO -->
+   <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Heart to Heart",
+  "url": "https://heart-to-heart-frontend.onrender.com",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://heart-to-heart-frontend.onrender.com/search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+
+    <!-- Main Script -->
+    <script type="module" src="/src/main.jsx"></script>
+</body>
+</html>

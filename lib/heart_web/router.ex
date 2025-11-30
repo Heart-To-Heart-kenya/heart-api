@@ -14,27 +14,6 @@ defmodule HeartWeb.Router do
     plug :accepts, ["json"]
   end
 
-  def swagger_info do
-    %{
-      schemes: ["http", "https"],
-      info: %{
-        version: "1.0",
-        title: "Heart Project API",
-        description: "API documentation for the Heart Project authorization system.",
-        contact: %{
-          name: "API Support",
-          email: "support@heart-project.com"
-        }
-      },
-      consumes: ["application/json"],
-      produces: ["application/json"]
-    }
-  end
-
-  forward "/swagger", PhoenixSwagger.Plug.SwaggerUI,
-    otp_app: :heart,
-    swagger_file: "swagger.json"
-
   scope "/", HeartWeb do
     pipe_through :browser
 

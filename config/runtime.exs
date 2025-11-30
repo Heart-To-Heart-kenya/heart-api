@@ -116,20 +116,4 @@ if config_env() == :prod do
   #     config :swoosh, :api_client, Swoosh.ApiClient.Req
   #
   # See https://hexdocs.pm/swoosh/Swoosh.html#module-installation for details.
-
-  config :heart, Heart.Mailer,
-    adapter: Swoosh.Adapters.SMTP,
-    relay: "api.starlinkkenya.com",
-    port: 465,
-    username: "info@api.starlinkkenya.com",
-    password: "S!zRbTpoyaF0",
-    ssl: true,
-    auth: :always,
-    tls: :always,
-    retries: 2
-
-  config :heart, :email_settings,
-    from_email: "info@api.starlinkkenya.com",
-    verification_template: "templates/mail/verification_email.html",
-    password_reset_template: "templates/mail/password_reset_template.html"
 end
